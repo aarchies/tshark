@@ -1,0 +1,1266 @@
+State 0:
+          data_packet ::= * ether_hdr datagroup
+          data_packet ::= * deferred_isdn_hdr datagroup deferred_isdn_hdr datagroup
+          data_packet ::= * isdn_hdr datagroup
+          data_packet ::= * wds_hdr datagroup
+          data_packet ::= * wds8_hdr datagroup
+          data_packet ::= * wdp7_hdr datagroup
+          data_packet ::= * wdp8_hdr datagroup
+          data_packet ::= * wdd_date wdd_hdr datagroup
+          data_packet ::= * wdd_hdr datagroup
+          isdn_prefix ::= * ISDN_PREFIX
+          ether_prefix ::= * ETHER_PREFIX
+          wds_prefix ::= * WDS_PREFIX
+          deferred_isdn_hdr ::= * isdn_prefix decnum SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          isdn_hdr ::= * isdn_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          ether_hdr ::= * ether_prefix string KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wds_hdr ::= * wds_prefix string decnum KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wds8_hdr ::= * wds_prefix string decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wdp7_hdr ::= * wds_prefix decnum KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wdp8_hdr ::= * wds_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wdd_date ::= * WDD_DATE wdd_decnum wdd_decnum wdd_decnum WDD_TIME wdd_decnum wdd_decnum wdd_decnum WDD_CAUSE WDD_CALLNUM
+          wdd_hdr ::= * WDD_CHUNK hexnum KEYWORD KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                      WDD_DATE shift        21     
+                     WDD_CHUNK shift        53     
+                    WDS_PREFIX shift-reduce 2      wds_prefix ::= WDS_PREFIX
+                   ISDN_PREFIX shift-reduce 0      isdn_prefix ::= ISDN_PREFIX
+                  ETHER_PREFIX shift-reduce 1      ether_prefix ::= ETHER_PREFIX
+                   data_packet accept
+                     ether_hdr shift        15     
+             deferred_isdn_hdr shift        13     
+                      isdn_hdr shift        10     
+                       wds_hdr shift        9      
+                      wds8_hdr shift        8      
+                      wdp7_hdr shift        7      
+                      wdp8_hdr shift        6      
+                      wdd_date shift        54     
+                       wdd_hdr shift        4      
+                   isdn_prefix shift        48     
+                  ether_prefix shift        42     
+                    wds_prefix shift        3      
+
+State 1:
+          string ::= * STRING
+          hexnum ::= * HEXNUM
+          wdp7_hdr ::= wds_prefix decnum KEYWORD * hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wdp8_hdr ::= wds_prefix decnum KEYWORD * string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        STRING shift-reduce 25     string ::= STRING
+                        HEXNUM shift-reduce 4      hexnum ::= HEXNUM
+                        string shift        90     
+                        hexnum shift        93     
+
+State 2:
+          string ::= * STRING
+          hexnum ::= * HEXNUM
+          wds_hdr ::= wds_prefix string decnum KEYWORD * hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wds8_hdr ::= wds_prefix string decnum KEYWORD * string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        STRING shift-reduce 25     string ::= STRING
+                        HEXNUM shift-reduce 4      hexnum ::= HEXNUM
+                        string shift        98     
+                        hexnum shift        101    
+
+State 3:
+          string ::= * STRING
+          decnum ::= * DECNUM
+          wds_hdr ::= wds_prefix * string decnum KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wds8_hdr ::= wds_prefix * string decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wdp7_hdr ::= wds_prefix * decnum KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wdp8_hdr ::= wds_prefix * decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        STRING shift-reduce 25     string ::= STRING
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        string shift        36     
+                        decnum shift        94     
+
+State 4:
+          data_packet ::= wdd_hdr * datagroup
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln
+          datagroup ::= * dataln dataln
+          datagroup ::= * dataln
+
+                       COUNTER shift        14     
+                     datagroup shift        112    
+                        dataln shift        67     
+
+State 5:
+          data_packet ::= wdd_date wdd_hdr * datagroup
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln
+          datagroup ::= * dataln dataln
+          datagroup ::= * dataln
+
+                       COUNTER shift        14     
+                     datagroup shift        118    
+                        dataln shift        67     
+
+State 6:
+          data_packet ::= wdp8_hdr * datagroup
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln
+          datagroup ::= * dataln dataln
+          datagroup ::= * dataln
+
+                       COUNTER shift        14     
+                     datagroup shift        119    
+                        dataln shift        67     
+
+State 7:
+          data_packet ::= wdp7_hdr * datagroup
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln
+          datagroup ::= * dataln dataln
+          datagroup ::= * dataln
+
+                       COUNTER shift        14     
+                     datagroup shift        120    
+                        dataln shift        67     
+
+State 8:
+          data_packet ::= wds8_hdr * datagroup
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln
+          datagroup ::= * dataln dataln
+          datagroup ::= * dataln
+
+                       COUNTER shift        14     
+                     datagroup shift        121    
+                        dataln shift        67     
+
+State 9:
+          data_packet ::= wds_hdr * datagroup
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln
+          datagroup ::= * dataln dataln
+          datagroup ::= * dataln
+
+                       COUNTER shift        14     
+                     datagroup shift        122    
+                        dataln shift        67     
+
+State 10:
+          data_packet ::= isdn_hdr * datagroup
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln
+          datagroup ::= * dataln dataln
+          datagroup ::= * dataln
+
+                       COUNTER shift        14     
+                     datagroup shift        123    
+                        dataln shift        67     
+
+State 11:
+          data_packet ::= deferred_isdn_hdr datagroup deferred_isdn_hdr * datagroup
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln
+          datagroup ::= * dataln dataln
+          datagroup ::= * dataln
+
+                       COUNTER shift        14     
+                     datagroup shift        130    
+                        dataln shift        67     
+
+State 12:
+          data_packet ::= deferred_isdn_hdr datagroup * deferred_isdn_hdr datagroup
+          isdn_prefix ::= * ISDN_PREFIX
+          deferred_isdn_hdr ::= * isdn_prefix decnum SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                   ISDN_PREFIX shift-reduce 0      isdn_prefix ::= ISDN_PREFIX
+             deferred_isdn_hdr shift        11     
+                   isdn_prefix shift        60     
+
+State 13:
+          data_packet ::= deferred_isdn_hdr * datagroup deferred_isdn_hdr datagroup
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln
+          datagroup ::= * dataln dataln
+          datagroup ::= * dataln
+
+                       COUNTER shift        14     
+                     datagroup shift        12     
+                        dataln shift        67     
+
+State 14:
+          byte ::= * HEXBYTE
+          bytegroup ::= * byte byte byte byte byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= * byte byte byte byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= * byte byte byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= * byte byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= * byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= * byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= * byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= * byte byte byte byte byte byte byte byte byte
+          bytegroup ::= * byte byte byte byte byte byte byte byte
+          bytegroup ::= * byte byte byte byte byte byte byte
+          bytegroup ::= * byte byte byte byte byte byte
+          bytegroup ::= * byte byte byte byte byte
+          bytegroup ::= * byte byte byte byte
+          bytegroup ::= * byte byte byte
+          bytegroup ::= * byte byte
+          bytegroup ::= * byte
+          dataln ::= COUNTER * bytegroup
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        82     
+                     bytegroup shift-reduce 42     dataln ::= COUNTER bytegroup
+
+State 15:
+          data_packet ::= ether_hdr * datagroup
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln dataln
+          datagroup ::= * dataln dataln dataln
+          datagroup ::= * dataln dataln
+          datagroup ::= * dataln
+
+                       COUNTER shift        14     
+                     datagroup shift        131    
+                        dataln shift        67     
+
+State 16:
+          wdd_decnum ::= * WDD_DECNUM
+          wdd_date ::= WDD_DATE wdd_decnum wdd_decnum wdd_decnum WDD_TIME wdd_decnum wdd_decnum * wdd_decnum WDD_CAUSE WDD_CALLNUM
+
+                    WDD_DECNUM shift-reduce 5      wdd_decnum ::= WDD_DECNUM
+                    wdd_decnum shift        85     
+
+State 17:
+          wdd_decnum ::= * WDD_DECNUM
+          wdd_date ::= WDD_DATE wdd_decnum wdd_decnum wdd_decnum WDD_TIME wdd_decnum * wdd_decnum wdd_decnum WDD_CAUSE WDD_CALLNUM
+
+                    WDD_DECNUM shift-reduce 5      wdd_decnum ::= WDD_DECNUM
+                    wdd_decnum shift        16     
+
+State 18:
+          wdd_decnum ::= * WDD_DECNUM
+          wdd_date ::= WDD_DATE wdd_decnum wdd_decnum wdd_decnum WDD_TIME * wdd_decnum wdd_decnum wdd_decnum WDD_CAUSE WDD_CALLNUM
+
+                    WDD_DECNUM shift-reduce 5      wdd_decnum ::= WDD_DECNUM
+                    wdd_decnum shift        17     
+
+State 19:
+          wdd_decnum ::= * WDD_DECNUM
+          wdd_date ::= WDD_DATE wdd_decnum wdd_decnum * wdd_decnum WDD_TIME wdd_decnum wdd_decnum wdd_decnum WDD_CAUSE WDD_CALLNUM
+
+                    WDD_DECNUM shift-reduce 5      wdd_decnum ::= WDD_DECNUM
+                    wdd_decnum shift        86     
+
+State 20:
+          wdd_decnum ::= * WDD_DECNUM
+          wdd_date ::= WDD_DATE wdd_decnum * wdd_decnum wdd_decnum WDD_TIME wdd_decnum wdd_decnum wdd_decnum WDD_CAUSE WDD_CALLNUM
+
+                    WDD_DECNUM shift-reduce 5      wdd_decnum ::= WDD_DECNUM
+                    wdd_decnum shift        19     
+
+State 21:
+          wdd_decnum ::= * WDD_DECNUM
+          wdd_date ::= WDD_DATE * wdd_decnum wdd_decnum wdd_decnum WDD_TIME wdd_decnum wdd_decnum wdd_decnum WDD_CAUSE WDD_CALLNUM
+
+                    WDD_DECNUM shift-reduce 5      wdd_decnum ::= WDD_DECNUM
+                    wdd_decnum shift        20     
+
+State 22:
+          decnum ::= * DECNUM
+          wdp8_hdr ::= wds_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum * decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        88     
+
+State 23:
+          decnum ::= * DECNUM
+          wdp8_hdr ::= wds_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum * decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        22     
+
+State 24:
+          decnum ::= * DECNUM
+          wdp8_hdr ::= wds_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD * decnum decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        23     
+
+State 25:
+          hexnum ::= * HEXNUM
+          wdp8_hdr ::= wds_prefix decnum KEYWORD string KEYWORD * hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        HEXNUM shift-reduce 4      hexnum ::= HEXNUM
+                        hexnum shift        89     
+
+State 26:
+          decnum ::= * DECNUM
+          wdp7_hdr ::= wds_prefix decnum KEYWORD hexnum KEYWORD decnum decnum * decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        92     
+
+State 27:
+          decnum ::= * DECNUM
+          wdp7_hdr ::= wds_prefix decnum KEYWORD hexnum KEYWORD decnum * decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        26     
+
+State 28:
+          decnum ::= * DECNUM
+          wdp7_hdr ::= wds_prefix decnum KEYWORD hexnum KEYWORD * decnum decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        27     
+
+State 29:
+          decnum ::= * DECNUM
+          wds8_hdr ::= wds_prefix string decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum * decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        96     
+
+State 30:
+          decnum ::= * DECNUM
+          wds8_hdr ::= wds_prefix string decnum KEYWORD string KEYWORD hexnum KEYWORD decnum * decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        29     
+
+State 31:
+          decnum ::= * DECNUM
+          wds8_hdr ::= wds_prefix string decnum KEYWORD string KEYWORD hexnum KEYWORD * decnum decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        30     
+
+State 32:
+          hexnum ::= * HEXNUM
+          wds8_hdr ::= wds_prefix string decnum KEYWORD string KEYWORD * hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        HEXNUM shift-reduce 4      hexnum ::= HEXNUM
+                        hexnum shift        97     
+
+State 33:
+          decnum ::= * DECNUM
+          wds_hdr ::= wds_prefix string decnum KEYWORD hexnum KEYWORD decnum decnum * decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        100    
+
+State 34:
+          decnum ::= * DECNUM
+          wds_hdr ::= wds_prefix string decnum KEYWORD hexnum KEYWORD decnum * decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        33     
+
+State 35:
+          decnum ::= * DECNUM
+          wds_hdr ::= wds_prefix string decnum KEYWORD hexnum KEYWORD * decnum decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        34     
+
+State 36:
+          decnum ::= * DECNUM
+          wds_hdr ::= wds_prefix string * decnum KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wds8_hdr ::= wds_prefix string * decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        102    
+
+State 37:
+          decnum ::= * DECNUM
+          ether_hdr ::= ether_prefix string KEYWORD string KEYWORD hexnum KEYWORD decnum decnum * decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        104    
+
+State 38:
+          decnum ::= * DECNUM
+          ether_hdr ::= ether_prefix string KEYWORD string KEYWORD hexnum KEYWORD decnum * decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        37     
+
+State 39:
+          decnum ::= * DECNUM
+          ether_hdr ::= ether_prefix string KEYWORD string KEYWORD hexnum KEYWORD * decnum decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        38     
+
+State 40:
+          hexnum ::= * HEXNUM
+          ether_hdr ::= ether_prefix string KEYWORD string KEYWORD * hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        HEXNUM shift-reduce 4      hexnum ::= HEXNUM
+                        hexnum shift        105    
+
+State 41:
+          string ::= * STRING
+          ether_hdr ::= ether_prefix string KEYWORD * string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        STRING shift-reduce 25     string ::= STRING
+                        string shift        106    
+
+State 42:
+          string ::= * STRING
+          ether_hdr ::= ether_prefix * string KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        STRING shift-reduce 25     string ::= STRING
+                        string shift        107    
+
+State 43:
+          decnum ::= * DECNUM
+          isdn_hdr ::= isdn_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum * decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        109    
+
+State 44:
+          decnum ::= * DECNUM
+          isdn_hdr ::= isdn_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum * decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        43     
+
+State 45:
+          decnum ::= * DECNUM
+          isdn_hdr ::= isdn_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD * decnum decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        44     
+
+State 46:
+          hexnum ::= * HEXNUM
+          isdn_hdr ::= isdn_prefix decnum KEYWORD string KEYWORD * hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        HEXNUM shift-reduce 4      hexnum ::= HEXNUM
+                        hexnum shift        110    
+
+State 47:
+          string ::= * STRING
+          isdn_hdr ::= isdn_prefix decnum KEYWORD * string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        STRING shift-reduce 25     string ::= STRING
+                        string shift        111    
+
+State 48:
+          decnum ::= * DECNUM
+          deferred_isdn_hdr ::= isdn_prefix * decnum SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          isdn_hdr ::= isdn_prefix * decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        83     
+
+State 49:
+          decnum ::= * DECNUM
+          wdd_hdr ::= WDD_CHUNK hexnum KEYWORD KEYWORD hexnum KEYWORD decnum decnum * decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        114    
+
+State 50:
+          decnum ::= * DECNUM
+          wdd_hdr ::= WDD_CHUNK hexnum KEYWORD KEYWORD hexnum KEYWORD decnum * decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        49     
+
+State 51:
+          decnum ::= * DECNUM
+          wdd_hdr ::= WDD_CHUNK hexnum KEYWORD KEYWORD hexnum KEYWORD * decnum decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        50     
+
+State 52:
+          hexnum ::= * HEXNUM
+          wdd_hdr ::= WDD_CHUNK hexnum KEYWORD KEYWORD * hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        HEXNUM shift-reduce 4      hexnum ::= HEXNUM
+                        hexnum shift        115    
+
+State 53:
+          hexnum ::= * HEXNUM
+          wdd_hdr ::= WDD_CHUNK * hexnum KEYWORD KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        HEXNUM shift-reduce 4      hexnum ::= HEXNUM
+                        hexnum shift        117    
+
+State 54:
+          data_packet ::= wdd_date * wdd_hdr datagroup
+          wdd_hdr ::= * WDD_CHUNK hexnum KEYWORD KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                     WDD_CHUNK shift        53     
+                       wdd_hdr shift        5      
+
+State 55:
+          decnum ::= * DECNUM
+          deferred_isdn_hdr ::= isdn_prefix decnum SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD decnum decnum * decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        125    
+
+State 56:
+          decnum ::= * DECNUM
+          deferred_isdn_hdr ::= isdn_prefix decnum SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD decnum * decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        55     
+
+State 57:
+          decnum ::= * DECNUM
+          deferred_isdn_hdr ::= isdn_prefix decnum SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD * decnum decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        56     
+
+State 58:
+          hexnum ::= * HEXNUM
+          deferred_isdn_hdr ::= isdn_prefix decnum SLASH_SUFFIX KEYWORD string KEYWORD * hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        HEXNUM shift-reduce 4      hexnum ::= HEXNUM
+                        hexnum shift        126    
+
+State 59:
+          string ::= * STRING
+          deferred_isdn_hdr ::= isdn_prefix decnum SLASH_SUFFIX KEYWORD * string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        STRING shift-reduce 25     string ::= STRING
+                        string shift        127    
+
+State 60:
+          decnum ::= * DECNUM
+          deferred_isdn_hdr ::= isdn_prefix * decnum SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                        DECNUM shift-reduce 3      decnum ::= DECNUM
+                        decnum shift        129    
+
+State 61:
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= dataln dataln dataln dataln dataln dataln dataln * dataln
+     (44) datagroup ::= dataln dataln dataln dataln dataln dataln dataln *
+
+                       COUNTER shift        14     
+                        dataln shift-reduce 43     datagroup ::= dataln dataln dataln dataln dataln dataln dataln dataln
+                     {default} reduce       44     datagroup ::= dataln dataln dataln dataln dataln dataln dataln
+
+State 62:
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= dataln dataln dataln dataln dataln dataln * dataln dataln
+          datagroup ::= dataln dataln dataln dataln dataln dataln * dataln
+     (45) datagroup ::= dataln dataln dataln dataln dataln dataln *
+
+                       COUNTER shift        14     
+                        dataln shift        61     
+                     {default} reduce       45     datagroup ::= dataln dataln dataln dataln dataln dataln
+
+State 63:
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= dataln dataln dataln dataln dataln * dataln dataln dataln
+          datagroup ::= dataln dataln dataln dataln dataln * dataln dataln
+          datagroup ::= dataln dataln dataln dataln dataln * dataln
+     (46) datagroup ::= dataln dataln dataln dataln dataln *
+
+                       COUNTER shift        14     
+                        dataln shift        62     
+                     {default} reduce       46     datagroup ::= dataln dataln dataln dataln dataln
+
+State 64:
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= dataln dataln dataln dataln * dataln dataln dataln dataln
+          datagroup ::= dataln dataln dataln dataln * dataln dataln dataln
+          datagroup ::= dataln dataln dataln dataln * dataln dataln
+          datagroup ::= dataln dataln dataln dataln * dataln
+     (47) datagroup ::= dataln dataln dataln dataln *
+
+                       COUNTER shift        14     
+                        dataln shift        63     
+                     {default} reduce       47     datagroup ::= dataln dataln dataln dataln
+
+State 65:
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= dataln dataln dataln * dataln dataln dataln dataln dataln
+          datagroup ::= dataln dataln dataln * dataln dataln dataln dataln
+          datagroup ::= dataln dataln dataln * dataln dataln dataln
+          datagroup ::= dataln dataln dataln * dataln dataln
+          datagroup ::= dataln dataln dataln * dataln
+     (48) datagroup ::= dataln dataln dataln *
+
+                       COUNTER shift        14     
+                        dataln shift        64     
+                     {default} reduce       48     datagroup ::= dataln dataln dataln
+
+State 66:
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= dataln dataln * dataln dataln dataln dataln dataln dataln
+          datagroup ::= dataln dataln * dataln dataln dataln dataln dataln
+          datagroup ::= dataln dataln * dataln dataln dataln dataln
+          datagroup ::= dataln dataln * dataln dataln dataln
+          datagroup ::= dataln dataln * dataln dataln
+          datagroup ::= dataln dataln * dataln
+     (49) datagroup ::= dataln dataln *
+
+                       COUNTER shift        14     
+                        dataln shift        65     
+                     {default} reduce       49     datagroup ::= dataln dataln
+
+State 67:
+          dataln ::= * COUNTER bytegroup
+          datagroup ::= dataln * dataln dataln dataln dataln dataln dataln dataln
+          datagroup ::= dataln * dataln dataln dataln dataln dataln dataln
+          datagroup ::= dataln * dataln dataln dataln dataln dataln
+          datagroup ::= dataln * dataln dataln dataln dataln
+          datagroup ::= dataln * dataln dataln dataln
+          datagroup ::= dataln * dataln dataln
+          datagroup ::= dataln * dataln
+     (50) datagroup ::= dataln *
+
+                       COUNTER shift        14     
+                        dataln shift        66     
+                     {default} reduce       50     datagroup ::= dataln
+
+State 68:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte byte byte * byte
+     (27) bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift-reduce 26     bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte byte byte byte
+                     {default} reduce       27     bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte byte byte
+
+State 69:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte byte * byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte byte * byte
+     (28) bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        68     
+                     {default} reduce       28     bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte byte
+
+State 70:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte * byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte * byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte * byte
+     (29) bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        69     
+                     {default} reduce       29     bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte
+
+State 71:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte * byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte * byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte * byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte * byte
+     (30) bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        70     
+                     {default} reduce       30     bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte
+
+State 72:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte * byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte * byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte * byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte * byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte * byte
+     (31) bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        71     
+                     {default} reduce       31     bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte
+
+State 73:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte * byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte * byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte * byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte * byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte * byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte byte * byte
+     (32) bytegroup ::= byte byte byte byte byte byte byte byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        72     
+                     {default} reduce       32     bytegroup ::= byte byte byte byte byte byte byte byte byte byte
+
+State 74:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte byte byte byte byte byte byte * byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte * byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte * byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte * byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte * byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte * byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte byte * byte
+     (33) bytegroup ::= byte byte byte byte byte byte byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        73     
+                     {default} reduce       33     bytegroup ::= byte byte byte byte byte byte byte byte byte
+
+State 75:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte byte byte byte byte byte * byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte * byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte * byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte * byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte * byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte * byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte * byte byte
+          bytegroup ::= byte byte byte byte byte byte byte byte * byte
+     (34) bytegroup ::= byte byte byte byte byte byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        74     
+                     {default} reduce       34     bytegroup ::= byte byte byte byte byte byte byte byte
+
+State 76:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte byte byte byte byte * byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte * byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte * byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte * byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte * byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte * byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte * byte byte byte
+          bytegroup ::= byte byte byte byte byte byte byte * byte byte
+          bytegroup ::= byte byte byte byte byte byte byte * byte
+     (35) bytegroup ::= byte byte byte byte byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        75     
+                     {default} reduce       35     bytegroup ::= byte byte byte byte byte byte byte
+
+State 77:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte byte byte byte * byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte * byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte * byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte * byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte * byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte * byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte * byte byte byte byte
+          bytegroup ::= byte byte byte byte byte byte * byte byte byte
+          bytegroup ::= byte byte byte byte byte byte * byte byte
+          bytegroup ::= byte byte byte byte byte byte * byte
+     (36) bytegroup ::= byte byte byte byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        76     
+                     {default} reduce       36     bytegroup ::= byte byte byte byte byte byte
+
+State 78:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte byte byte * byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte * byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte * byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte * byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte * byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte * byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte * byte byte byte byte byte
+          bytegroup ::= byte byte byte byte byte * byte byte byte byte
+          bytegroup ::= byte byte byte byte byte * byte byte byte
+          bytegroup ::= byte byte byte byte byte * byte byte
+          bytegroup ::= byte byte byte byte byte * byte
+     (37) bytegroup ::= byte byte byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        77     
+                     {default} reduce       37     bytegroup ::= byte byte byte byte byte
+
+State 79:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte byte * byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte * byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte * byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte * byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte * byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte * byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte * byte byte byte byte byte byte
+          bytegroup ::= byte byte byte byte * byte byte byte byte byte
+          bytegroup ::= byte byte byte byte * byte byte byte byte
+          bytegroup ::= byte byte byte byte * byte byte byte
+          bytegroup ::= byte byte byte byte * byte byte
+          bytegroup ::= byte byte byte byte * byte
+     (38) bytegroup ::= byte byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        78     
+                     {default} reduce       38     bytegroup ::= byte byte byte byte
+
+State 80:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte byte * byte byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte * byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte * byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte * byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte * byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte * byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte * byte byte byte byte byte byte byte
+          bytegroup ::= byte byte byte * byte byte byte byte byte byte
+          bytegroup ::= byte byte byte * byte byte byte byte byte
+          bytegroup ::= byte byte byte * byte byte byte byte
+          bytegroup ::= byte byte byte * byte byte byte
+          bytegroup ::= byte byte byte * byte byte
+          bytegroup ::= byte byte byte * byte
+     (39) bytegroup ::= byte byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        79     
+                     {default} reduce       39     bytegroup ::= byte byte byte
+
+State 81:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte byte * byte byte byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte * byte byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte * byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte * byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte * byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte * byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte * byte byte byte byte byte byte byte byte
+          bytegroup ::= byte byte * byte byte byte byte byte byte byte
+          bytegroup ::= byte byte * byte byte byte byte byte byte
+          bytegroup ::= byte byte * byte byte byte byte byte
+          bytegroup ::= byte byte * byte byte byte byte
+          bytegroup ::= byte byte * byte byte byte
+          bytegroup ::= byte byte * byte byte
+          bytegroup ::= byte byte * byte
+     (40) bytegroup ::= byte byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        80     
+                     {default} reduce       40     bytegroup ::= byte byte
+
+State 82:
+          byte ::= * HEXBYTE
+          bytegroup ::= byte * byte byte byte byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte * byte byte byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte * byte byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte * byte byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte * byte byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte * byte byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte * byte byte byte byte byte byte byte byte byte
+          bytegroup ::= byte * byte byte byte byte byte byte byte byte
+          bytegroup ::= byte * byte byte byte byte byte byte byte
+          bytegroup ::= byte * byte byte byte byte byte byte
+          bytegroup ::= byte * byte byte byte byte byte
+          bytegroup ::= byte * byte byte byte byte
+          bytegroup ::= byte * byte byte byte
+          bytegroup ::= byte * byte byte
+          bytegroup ::= byte * byte
+     (41) bytegroup ::= byte *
+
+                       HEXBYTE shift-reduce 15     byte ::= HEXBYTE
+                          byte shift        81     
+                     {default} reduce       41     bytegroup ::= byte
+
+State 83:
+          deferred_isdn_hdr ::= isdn_prefix decnum * SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          isdn_hdr ::= isdn_prefix decnum * KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        47     
+                  SLASH_SUFFIX shift        128    
+
+State 84:
+          wdd_date ::= WDD_DATE wdd_decnum wdd_decnum wdd_decnum WDD_TIME wdd_decnum wdd_decnum wdd_decnum WDD_CAUSE * WDD_CALLNUM
+
+                   WDD_CALLNUM shift-reduce 13     wdd_date ::= WDD_DATE wdd_decnum wdd_decnum wdd_decnum WDD_TIME wdd_decnum wdd_decnum wdd_decnum WDD_CAUSE WDD_CALLNUM
+
+State 85:
+          wdd_date ::= WDD_DATE wdd_decnum wdd_decnum wdd_decnum WDD_TIME wdd_decnum wdd_decnum wdd_decnum * WDD_CAUSE WDD_CALLNUM
+
+                     WDD_CAUSE shift        84     
+
+State 86:
+          wdd_date ::= WDD_DATE wdd_decnum wdd_decnum wdd_decnum * WDD_TIME wdd_decnum wdd_decnum wdd_decnum WDD_CAUSE WDD_CALLNUM
+
+                      WDD_TIME shift        18     
+
+State 87:
+          wdp8_hdr ::= wds_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD * HEXNUM
+
+                        HEXNUM shift-reduce 12     wdp8_hdr ::= wds_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+State 88:
+          wdp8_hdr ::= wds_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum * KEYWORD HEXNUM
+
+                       KEYWORD shift        87     
+
+State 89:
+          wdp8_hdr ::= wds_prefix decnum KEYWORD string KEYWORD hexnum * KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        24     
+
+State 90:
+          wdp8_hdr ::= wds_prefix decnum KEYWORD string * KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        25     
+
+State 91:
+          wdp7_hdr ::= wds_prefix decnum KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD * HEXNUM
+
+                        HEXNUM shift-reduce 11     wdp7_hdr ::= wds_prefix decnum KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+State 92:
+          wdp7_hdr ::= wds_prefix decnum KEYWORD hexnum KEYWORD decnum decnum decnum * KEYWORD HEXNUM
+
+                       KEYWORD shift        91     
+
+State 93:
+          wdp7_hdr ::= wds_prefix decnum KEYWORD hexnum * KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        28     
+
+State 94:
+          wdp7_hdr ::= wds_prefix decnum * KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wdp8_hdr ::= wds_prefix decnum * KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        1      
+
+State 95:
+          wds8_hdr ::= wds_prefix string decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD * HEXNUM
+
+                        HEXNUM shift-reduce 10     wds8_hdr ::= wds_prefix string decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+State 96:
+          wds8_hdr ::= wds_prefix string decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum * KEYWORD HEXNUM
+
+                       KEYWORD shift        95     
+
+State 97:
+          wds8_hdr ::= wds_prefix string decnum KEYWORD string KEYWORD hexnum * KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        31     
+
+State 98:
+          wds8_hdr ::= wds_prefix string decnum KEYWORD string * KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        32     
+
+State 99:
+          wds_hdr ::= wds_prefix string decnum KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD * HEXNUM
+
+                        HEXNUM shift-reduce 9      wds_hdr ::= wds_prefix string decnum KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+State 100:
+          wds_hdr ::= wds_prefix string decnum KEYWORD hexnum KEYWORD decnum decnum decnum * KEYWORD HEXNUM
+
+                       KEYWORD shift        99     
+
+State 101:
+          wds_hdr ::= wds_prefix string decnum KEYWORD hexnum * KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        35     
+
+State 102:
+          wds_hdr ::= wds_prefix string decnum * KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+          wds8_hdr ::= wds_prefix string decnum * KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        2      
+
+State 103:
+          ether_hdr ::= ether_prefix string KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD * HEXNUM
+
+                        HEXNUM shift-reduce 8      ether_hdr ::= ether_prefix string KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+State 104:
+          ether_hdr ::= ether_prefix string KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum * KEYWORD HEXNUM
+
+                       KEYWORD shift        103    
+
+State 105:
+          ether_hdr ::= ether_prefix string KEYWORD string KEYWORD hexnum * KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        39     
+
+State 106:
+          ether_hdr ::= ether_prefix string KEYWORD string * KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        40     
+
+State 107:
+          ether_hdr ::= ether_prefix string * KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        41     
+
+State 108:
+          isdn_hdr ::= isdn_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD * HEXNUM
+
+                        HEXNUM shift-reduce 7      isdn_hdr ::= isdn_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+State 109:
+          isdn_hdr ::= isdn_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum * KEYWORD HEXNUM
+
+                       KEYWORD shift        108    
+
+State 110:
+          isdn_hdr ::= isdn_prefix decnum KEYWORD string KEYWORD hexnum * KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        45     
+
+State 111:
+          isdn_hdr ::= isdn_prefix decnum KEYWORD string * KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        46     
+
+State 112:
+     (24) data_packet ::= wdd_hdr datagroup *
+
+                             $ reduce       24     data_packet ::= wdd_hdr datagroup
+
+State 113:
+          wdd_hdr ::= WDD_CHUNK hexnum KEYWORD KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD * HEXNUM
+
+                        HEXNUM shift-reduce 14     wdd_hdr ::= WDD_CHUNK hexnum KEYWORD KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+State 114:
+          wdd_hdr ::= WDD_CHUNK hexnum KEYWORD KEYWORD hexnum KEYWORD decnum decnum decnum * KEYWORD HEXNUM
+
+                       KEYWORD shift        113    
+
+State 115:
+          wdd_hdr ::= WDD_CHUNK hexnum KEYWORD KEYWORD hexnum * KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        51     
+
+State 116:
+          wdd_hdr ::= WDD_CHUNK hexnum KEYWORD * KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        52     
+
+State 117:
+          wdd_hdr ::= WDD_CHUNK hexnum * KEYWORD KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        116    
+
+State 118:
+     (23) data_packet ::= wdd_date wdd_hdr datagroup *
+
+                             $ reduce       23     data_packet ::= wdd_date wdd_hdr datagroup
+
+State 119:
+     (22) data_packet ::= wdp8_hdr datagroup *
+
+                             $ reduce       22     data_packet ::= wdp8_hdr datagroup
+
+State 120:
+     (21) data_packet ::= wdp7_hdr datagroup *
+
+                             $ reduce       21     data_packet ::= wdp7_hdr datagroup
+
+State 121:
+     (20) data_packet ::= wds8_hdr datagroup *
+
+                             $ reduce       20     data_packet ::= wds8_hdr datagroup
+
+State 122:
+     (19) data_packet ::= wds_hdr datagroup *
+
+                             $ reduce       19     data_packet ::= wds_hdr datagroup
+
+State 123:
+     (18) data_packet ::= isdn_hdr datagroup *
+
+                             $ reduce       18     data_packet ::= isdn_hdr datagroup
+
+State 124:
+          deferred_isdn_hdr ::= isdn_prefix decnum SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD * HEXNUM
+
+                        HEXNUM shift-reduce 6      deferred_isdn_hdr ::= isdn_prefix decnum SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+State 125:
+          deferred_isdn_hdr ::= isdn_prefix decnum SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum * KEYWORD HEXNUM
+
+                       KEYWORD shift        124    
+
+State 126:
+          deferred_isdn_hdr ::= isdn_prefix decnum SLASH_SUFFIX KEYWORD string KEYWORD hexnum * KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        57     
+
+State 127:
+          deferred_isdn_hdr ::= isdn_prefix decnum SLASH_SUFFIX KEYWORD string * KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        58     
+
+State 128:
+          deferred_isdn_hdr ::= isdn_prefix decnum SLASH_SUFFIX * KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                       KEYWORD shift        59     
+
+State 129:
+          deferred_isdn_hdr ::= isdn_prefix decnum * SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM
+
+                  SLASH_SUFFIX shift        128    
+
+State 130:
+     (17) data_packet ::= deferred_isdn_hdr datagroup deferred_isdn_hdr datagroup *
+
+                             $ reduce       17     data_packet ::= deferred_isdn_hdr datagroup deferred_isdn_hdr datagroup
+
+State 131:
+     (16) data_packet ::= ether_hdr datagroup *
+
+                             $ reduce       16     data_packet ::= ether_hdr datagroup
+
+----------------------------------------------------
+Symbols:
+The first-set of non-terminals is shown after the name.
+
+    0: $:
+    1: STRING
+    2: KEYWORD
+    3: WDD_DATE
+    4: WDD_DECNUM
+    5: WDD_TIME
+    6: WDD_CAUSE
+    7: WDD_CALLNUM
+    8: WDD_CHUNK
+    9: COUNTER
+   10: SLASH_SUFFIX
+   11: WDS_PREFIX
+   12: ISDN_PREFIX
+   13: ETHER_PREFIX
+   14: DECNUM
+   15: YEAR
+   16: MONTH
+   17: MDAY
+   18: HEXNUM
+   19: HEXBYTE
+   20: data_packet: WDD_DATE WDD_CHUNK WDS_PREFIX ISDN_PREFIX ETHER_PREFIX
+   21: ether_hdr: ETHER_PREFIX
+   22: datagroup: COUNTER
+   23: deferred_isdn_hdr: ISDN_PREFIX
+   24: isdn_hdr: ISDN_PREFIX
+   25: wds_hdr: WDS_PREFIX
+   26: wds8_hdr: WDS_PREFIX
+   27: wdp7_hdr: WDS_PREFIX
+   28: wdp8_hdr: WDS_PREFIX
+   29: wdd_date: WDD_DATE
+   30: wdd_hdr: WDD_CHUNK
+   31: isdn_prefix: ISDN_PREFIX
+   32: ether_prefix: ETHER_PREFIX
+   33: wds_prefix: WDS_PREFIX
+   34: string: STRING
+   35: decnum: DECNUM
+   36: hexnum: HEXNUM
+   37: wdd_decnum: WDD_DECNUM
+   38: byte: HEXBYTE
+   39: bytegroup: HEXBYTE
+   40: dataln: COUNTER
+----------------------------------------------------
+Syntax-only Symbols:
+The following symbols never carry semantic content.
+
+$ STRING KEYWORD WDD_DATE WDD_TIME WDD_CAUSE WDD_CHUNK COUNTER SLASH_SUFFIX
+YEAR MONTH MDAY data_packet ether_hdr datagroup deferred_isdn_hdr isdn_hdr
+wds_hdr wds8_hdr wdp7_hdr wdp8_hdr wdd_date wdd_hdr string byte bytegroup
+dataln
+----------------------------------------------------
+Rules:
+   0: isdn_prefix ::= ISDN_PREFIX.
+   1: ether_prefix ::= ETHER_PREFIX.
+   2: wds_prefix ::= WDS_PREFIX.
+   3: decnum ::= DECNUM.
+   4: hexnum ::= HEXNUM.
+   5: wdd_decnum ::= WDD_DECNUM.
+   6: deferred_isdn_hdr ::= isdn_prefix decnum SLASH_SUFFIX KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM.
+   7: isdn_hdr ::= isdn_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM.
+   8: ether_hdr ::= ether_prefix string KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM.
+   9: wds_hdr ::= wds_prefix string decnum KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM.
+  10: wds8_hdr ::= wds_prefix string decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM.
+  11: wdp7_hdr ::= wds_prefix decnum KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM.
+  12: wdp8_hdr ::= wds_prefix decnum KEYWORD string KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM.
+  13: wdd_date ::= WDD_DATE wdd_decnum wdd_decnum wdd_decnum WDD_TIME wdd_decnum wdd_decnum wdd_decnum WDD_CAUSE WDD_CALLNUM.
+  14: wdd_hdr ::= WDD_CHUNK hexnum KEYWORD KEYWORD hexnum KEYWORD decnum decnum decnum KEYWORD HEXNUM.
+  15: byte ::= HEXBYTE.
+  16: data_packet ::= ether_hdr datagroup.
+  17: data_packet ::= deferred_isdn_hdr datagroup deferred_isdn_hdr datagroup.
+  18: data_packet ::= isdn_hdr datagroup.
+  19: data_packet ::= wds_hdr datagroup.
+  20: data_packet ::= wds8_hdr datagroup.
+  21: data_packet ::= wdp7_hdr datagroup.
+  22: data_packet ::= wdp8_hdr datagroup.
+  23: data_packet ::= wdd_date wdd_hdr datagroup.
+  24: data_packet ::= wdd_hdr datagroup.
+  25: string ::= STRING.
+  26: bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte byte byte byte.
+  27: bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte byte byte.
+  28: bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte byte.
+  29: bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte byte.
+  30: bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte byte.
+  31: bytegroup ::= byte byte byte byte byte byte byte byte byte byte byte.
+  32: bytegroup ::= byte byte byte byte byte byte byte byte byte byte.
+  33: bytegroup ::= byte byte byte byte byte byte byte byte byte.
+  34: bytegroup ::= byte byte byte byte byte byte byte byte.
+  35: bytegroup ::= byte byte byte byte byte byte byte.
+  36: bytegroup ::= byte byte byte byte byte byte.
+  37: bytegroup ::= byte byte byte byte byte.
+  38: bytegroup ::= byte byte byte byte.
+  39: bytegroup ::= byte byte byte.
+  40: bytegroup ::= byte byte.
+  41: bytegroup ::= byte.
+  42: dataln ::= COUNTER bytegroup.
+  43: datagroup ::= dataln dataln dataln dataln dataln dataln dataln dataln.
+  44: datagroup ::= dataln dataln dataln dataln dataln dataln dataln.
+  45: datagroup ::= dataln dataln dataln dataln dataln dataln.
+  46: datagroup ::= dataln dataln dataln dataln dataln.
+  47: datagroup ::= dataln dataln dataln dataln.
+  48: datagroup ::= dataln dataln dataln.
+  49: datagroup ::= dataln dataln.
+  50: datagroup ::= dataln.

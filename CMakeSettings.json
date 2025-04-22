@@ -1,0 +1,22 @@
+{
+  "environments": [
+    {
+      "WIRESHARK_BASE_DIR": "C:\\Development",
+      "WIRESHARK_LIB_DIR": "c:\\wireshark-x64-libs",
+      "WIRESHARK_QT6_PREFIX_PATH": "D:\\QT\\6.5.3\\msvc2019_64",
+      "WIRESHARK_VERSION_EXTRA": "v4.4.4"
+    }
+  ],
+  "configurations": [
+    {
+      "name": "x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "ctestCommandArgs": "",
+      "cmakeCommandArgs": "-WIRESHARK_BASE_DIR=C:\\\\\\\\Development"
+    }
+  ]
+}
