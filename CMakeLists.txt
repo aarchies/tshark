@@ -1861,6 +1861,7 @@ if(ENABLE_PLUGINS)
 		plugins/epan/irda
 		plugins/epan/mate
 		plugins/epan/opcua
+		plugins/epan/s7comm_plus
 		plugins/epan/profinet
 		plugins/epan/stats_tree
 		plugins/epan/transum
@@ -3199,7 +3200,6 @@ if(BUILD_tshark)
 	add_definitions(-DTESTDLLEXPORT)
 	set_extra_executable_properties(tshark "Executables")
 	target_link_libraries(tshark ${tshark_LIBS})
-	# executable_link_mingw_unicode(tshark)
 	install(TARGETS tshark RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 

@@ -4161,6 +4161,32 @@ checkAPI_opcua/fast:
 .PHONY : checkAPI_opcua/fast
 
 #=============================================================================
+# Target rules for targets named s7comm_plus
+
+# Build rule for target.
+s7comm_plus: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 s7comm_plus
+.PHONY : s7comm_plus
+
+# fast build rule for target.
+s7comm_plus/fast:
+	$(MAKE) $(MAKESILENT) -f plugins/epan/s7comm_plus/CMakeFiles/s7comm_plus.dir/build.make plugins/epan/s7comm_plus/CMakeFiles/s7comm_plus.dir/build
+.PHONY : s7comm_plus/fast
+
+#=============================================================================
+# Target rules for targets named checkAPI_s7comm_plus
+
+# Build rule for target.
+checkAPI_s7comm_plus: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 checkAPI_s7comm_plus
+.PHONY : checkAPI_s7comm_plus
+
+# fast build rule for target.
+checkAPI_s7comm_plus/fast:
+	$(MAKE) $(MAKESILENT) -f plugins/epan/s7comm_plus/CMakeFiles/checkAPI_s7comm_plus.dir/build.make plugins/epan/s7comm_plus/CMakeFiles/checkAPI_s7comm_plus.dir/build
+.PHONY : checkAPI_s7comm_plus/fast
+
+#=============================================================================
 # Target rules for targets named profinet
 
 # Build rule for target.
@@ -6162,6 +6188,7 @@ help:
 	@echo "... checkAPI_profinet"
 	@echo "... checkAPI_randpkt_core-base"
 	@echo "... checkAPI_randpkt_core-todo"
+	@echo "... checkAPI_s7comm_plus"
 	@echo "... checkAPI_stats_tree"
 	@echo "... checkAPI_transum"
 	@echo "... checkAPI_ui-base"
@@ -6445,6 +6472,7 @@ help:
 	@echo "... rawshark"
 	@echo "... reassemble_test"
 	@echo "... reordercap"
+	@echo "... s7comm_plus"
 	@echo "... shark_common"
 	@echo "... sharkd"
 	@echo "... stats_tree"

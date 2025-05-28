@@ -4,28 +4,16 @@
 docker pull wireshark/wireshark-ubuntu-dev:latest
 
 ### 编译
-docker run --name ubuntu_wireshark -itd -v /e/protocol_analysis/wireshark-v3.2.9:/data wireshark/wireshark-ubuntu-dev
+docker run --name ubuntu_wireshark -itd -v /root/wireshark-4.5:/data wireshark/wireshark-ubuntu-dev
 
 docker exec -it ubuntu_wireshark /bin/bash
 
 apt update && apt install libprotobuf-c-dev -y
 
-cd /data/build
+cd build && cmake ..
 
-cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON -DENABLE_WIRESHARK=OFF -DENABLE_TSHARK=OFF -DENABLE_GTK_UI=OFF -DENABLE_QT_UI=OFF
-
-make -j12
-
-### 说明
--DBUILD_SHARED_LIBS=ON：生成共享库libwireshark.so
--DENABLE_WIRESHARK=OFF：禁用 Wireshark GUI
--DENABLE_TSHARK=OFF：禁用 TShark 命令行工具
--DENABLE_GTK_UI=OFF：禁用 GTK 图形界面（GUI）
--DENABLE_QT_UI=OFF：禁用 Qt 图形界面（GUI）
-
-### 链接共享库
-cp run/libwireshark.so /usr/local/lib/ # 链接至共享库
-
+cd ../ && make clean && make -j12 && make install
+ 
 ldconfig -p | grep libwireshark.so  # 验证
 
 ### 保存为基础镜像
