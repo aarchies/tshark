@@ -1,10 +1,10 @@
-# Unix 环境编译
+# Unix 环境编译 4.5.0
 
 ### 环境
 docker pull wireshark/wireshark-ubuntu-dev:latest
 
 ### 编译
-docker run --name ubuntu_wireshark -itd -v /root/wireshark-4.5:/data wireshark/wireshark-ubuntu-dev
+docker run --name ubuntu_wireshark -itd -v /root/wireshark:/root wireshark/wireshark-ubuntu-dev
 
 docker exec -it ubuntu_wireshark /bin/bash
 
