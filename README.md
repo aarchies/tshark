@@ -17,6 +17,7 @@ make -j12 && make install
 
 ## 验证 
 ldconfig -p | grep libwireshark.so  
+ldconfig -v | grep tshark
 
 ## 保存为基础镜像
 docker commit wireshark:ubuntu
