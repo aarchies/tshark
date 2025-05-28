@@ -8,11 +8,11 @@ docker pull ubuntu:latest
 docker run --name wireshark_ubuntu -itd -v /root/wireshark:/root ubuntu:latest
 docker exec -it wireshark_ubuntu /bin/bash
 
-apt update && apt install libprotobuf-c-dev libsystemd-dev  -y
+apt update && apt install libprotobuf-c-dev libsystemd-dev lua5.3 liblua5.3-dev  -y
 tools/debian-setup.sh --install-qt6-deps
 
 ##时区设置 5 69 上海时区
-cd build && cmake ..
+cd build && cmake -DENABLE_LUA=ON -DENABLE_PLUGINS=ON .. 
 make -j12 && make install
 
 ## 验证 
