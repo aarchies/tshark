@@ -18,7 +18,7 @@ make -j12 && make install
 ## 验证 
 ldconfig -p | grep libwireshark.so  
 ldconfig -v | grep tshark
-
+wireshark -v # 输出with需包含 +Lua x.x.x
 ## 保存为基础镜像
 docker commit wireshark:ubuntu
 docker commit docker.fengchuang.tech/menace/tshark:ubuntu

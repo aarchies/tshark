@@ -3194,9 +3194,9 @@ if(BUILD_tshark)
 	)
 
 	set_executable_resources(tshark "TShark" UNIQUE_RC)
-	# add_executable(tshark ${tshark_FILES})
+	# add_executable(tshark ${tshark_FILES}) # 可执行文件
 
-	add_library(tshark SHARED ${tshark_FILES}) # 链接库
+	add_library(tshark SHARED ${tshark_FILES}) # 动态链接库
 	add_definitions(-DTESTDLLEXPORT)
 	set_extra_executable_properties(tshark "Executables")
 	target_link_libraries(tshark ${tshark_LIBS})

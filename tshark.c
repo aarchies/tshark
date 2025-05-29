@@ -1046,6 +1046,56 @@ static GList *capture_opts_get_interface_list(int *err, char **err_str)
 
 int main(int argc, char *argv[])
 {
+    clock_t start, end;
+    start = clock();
+
+    process_main_init();
+
+    const uint8_t packet_data_lua[] = {
+        /* 0000 */ 0x08, 0x00, 0x27, 0x9d, 0x3a, 0x8d, 0x08, 0x00, 0x27, 0x7f, 0xc8, 0xbc, 0x08, 0x00, 0x45, 0x00,
+        /* 0010 */ 0x00, 0x9c, 0x5b, 0x5d, 0x40, 0x00, 0x40, 0x06, 0xec, 0xc8, 0xc0, 0xa8, 0x38, 0x72, 0xc0, 0xa8,
+        /* 0020 */ 0x38, 0x73, 0x2d, 0xdc, 0xc4, 0x12, 0xdb, 0x20, 0x3b, 0xd4, 0x6f, 0x45, 0xfd, 0x19, 0x50, 0x18,
+        /* 0030 */ 0x01, 0xf5, 0xd7, 0xc8, 0x00, 0x00, 0x00, 0x11, 0x7e, 0x87, 0x40, 0x00, 0x00, 0x0c, 0x57, 0x34,
+        /* 0040 */ 0x04, 0x00, 0x03, 0x4c, 0x41, 0x2c, 0x0a, 0x83, 0x87, 0x38, 0x30, 0xf2, 0xdd, 0xc0, 0xa0, 0x00,
+        /* 0050 */ 0x20, 0xf0, 0x10, 0x0d, 0x8d, 0xb0, 0x40, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x59, 0x2d, 0x2d,
+        /* 0060 */ 0x2d, 0x2d, 0x2d, 0x0a, 0x00, 0x26, 0xa0, 0x80, 0x00, 0x42, 0xe5, 0xe4, 0x83, 0x92, 0x30, 0xc3,
+        /* 0070 */ 0xff, 0xe0, 0x98, 0x08, 0x48, 0x9f, 0xa1, 0xef, 0x08, 0x7c, 0xc9, 0x0b, 0xfa, 0xfc, 0x28, 0x6c,
+        /* 0080 */ 0x31, 0x88, 0xb5, 0xee, 0x65, 0x43, 0xcc, 0x9a, 0x1b, 0x82, 0xff, 0x03, 0x04, 0x20, 0x02, 0x0a,
+        /* 0090 */ 0x00, 0x83, 0xff, 0x03, 0x14, 0x03, 0x0a, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x00, 0x00, 0x00,
+        /* 00A0 */ 0x00, 0x08, 0x84, 0x80, 0x00, 0x01, 0x00, 0x00, 0x00};
+
+    const uint8_t packet_data_so[] = {
+        /* 0000 */ 0x00, 0x1b, 0x1b, 0x60, 0x0b, 0x91, 0x28, 0x63, 0x36, 0x9a, 0x21, 0x04, 0x08, 0x00, 0x45, 0x00,
+        /* 0010 */ 0x00, 0x6c, 0x7c, 0xd2, 0x00, 0x00, 0x40, 0x06, 0x0c, 0x41, 0xc0, 0xa8, 0x38, 0x0f, 0xc0, 0xa8,
+        /* 0020 */ 0x38, 0x19, 0x00, 0x66, 0xc0, 0x0f, 0x53, 0x58, 0xb4, 0x5a, 0x08, 0xc5, 0xfe, 0xbe, 0x50, 0x18,
+        /* 0030 */ 0x20, 0x00, 0xb6, 0x51, 0x00, 0x00, 0x03, 0x00, 0x00, 0x44, 0x02, 0xf0, 0x80, 0x72, 0x03, 0x00,
+        /* 0040 */ 0x35, 0x20, 0xf9, 0xca, 0x4b, 0x8f, 0x2f, 0xea, 0xa2, 0x78, 0x68, 0xef, 0xbf, 0xaa, 0x4b, 0xd0,
+        /* 0050 */ 0x77, 0xc4, 0x9c, 0x23, 0xd8, 0x74, 0xc3, 0x0c, 0xc2, 0xe2, 0x95, 0x92, 0x7f, 0x01, 0x8d, 0x96,
+        /* 0060 */ 0x3c, 0x46, 0x33, 0x70, 0x00, 0x00, 0xe5, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x0b, 0x08, 0x52,
+        /* 0070 */ 0xf0, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x72, 0x03, 0x00, 0x00};
+
+    for (int i = 0; i < 1; ++i)
+    {
+        packet_result result = dissect_single_packet(packet_data_lua, 137);
+        ws_info("protocol %s %s->%s %s", result.packet_info.proto, result.packet_info.sip, result.packet_info.dip, result.packet_info.desc);
+        free_packet_result(&result);
+    }
+
+    for (int i = 0; i < 1; ++i)
+    {
+        packet_result result = dissect_single_packet(packet_data_so, 137);
+        ws_info("protocol %s %s->%s %s", result.packet_info.proto, result.packet_info.sip, result.packet_info.dip, result.packet_info.desc);
+        free_packet_result(&result);
+    }
+
+    end = clock();
+    double cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+    ws_info("逐帧耗时: %f s", cpu_time_used);
+
+    process_main_after();
+
+    return 0;
+
     char *err_msg;
     int opt;
     static const struct ws_option long_options[] = {
@@ -3655,8 +3705,7 @@ process_packet_first_pass(capture_file *cf, epan_dissect_t *edt, int64_t offset,
            hfids postdissectors want on the first pass. */
         prime_epan_dissect_with_postdissector_wanted_hfids(edt);
 
-        frame_data_set_before_dissect(&fdlocal, &cf->elapsed_time,
-                                      &cf->provider.ref, cf->provider.prev_dis);
+        frame_data_set_before_dissect(&fdlocal, &cf->elapsed_time, &cf->provider.ref, cf->provider.prev_dis);
         if (cf->provider.ref == &fdlocal)
         {
             ref_frame = fdlocal;
@@ -5471,60 +5520,6 @@ fail:
     return CF_ERROR;
 }
 
-// cf_status_t
-// cf_write(capture_file *cf, const char *binary, const size_t len)
-// {
-//     wtap *wth;
-//     int err;
-//     char *err_info;
-
-//     wth = open_wtap_from_binary(local_path, binary, len, &err, &err_info);
-//     if (wth == NULL)
-//         goto fail;
-
-//     /* The open succeeded.  Fill in the information for this file. */
-
-//     cf->provider.wth = wth;
-//     cf->f_datalen = 0; /* not used, but set it anyway */
-
-//     /* Set the file name because we need it to set the follow stream filter.
-//        XXX - is that still true?  We need it for other reasons, though,
-//        in any case. */
-//     cf->filename = NULL;
-
-//     /* Indicate whether it's a permanent or temporary file. */
-//     cf->is_tempfile = false;
-
-//     /* No user changes yet. */
-//     cf->unsaved_changes = false;
-
-//     cf->cd_t = wtap_file_type_subtype(cf->provider.wth);
-//     cf->open_type = 0;
-//     cf->count = 0;
-//     cf->drops_known = false;
-//     cf->drops = 0;
-//     cf->snap = wtap_snapshot_length(cf->provider.wth);
-//     nstime_set_zero(&cf->elapsed_time);
-//     cf->provider.ref = NULL;
-//     cf->provider.prev_dis = NULL;
-//     cf->provider.prev_cap = NULL;
-
-//     cf->state = FILE_READ_IN_PROGRESS;
-
-//     /* Create new epan session for dissection. */
-//     epan_free(cf->epan);
-//     cf->epan = tshark_epan_new(cf);
-
-//     wtap_set_cb_new_ipv4(cf->provider.wth, add_ipv4_name);
-//     wtap_set_cb_new_ipv6(cf->provider.wth, (wtap_new_ipv6_callback_t)add_ipv6_name);
-//     wtap_set_cb_new_secrets(cf->provider.wth, secrets_wtap_callback);
-
-//     return CF_OK;
-
-// fail:
-//     return CF_ERROR;
-// }
-
 static void
 show_print_file_io_error(void)
 {
@@ -5652,13 +5647,11 @@ void process_main_init(void)
 {
 
 #ifdef _WIN32
+    create_app_running_mutex();
     setlocale(LC_ALL, ".UTF-8");
 #else
     setlocale(LC_ALL, "");
 #endif
-
-    e_prefs *prefs_p;
-    init_report_failure_message("TShark");
 
 #ifdef HAVE_LIBPCAP
     capture_opts_init(&global_capture_opts, capture_opts_get_interface_list);
@@ -5669,38 +5662,38 @@ void process_main_init(void)
 
 #endif
 
+    init_process_policies();
+    relinquish_special_privs_perm();
+    print_current_user();
+
+    if (configuration_init("/usr/local/lib/wireshark/") != NULL)
+    {
+        ws_error("Failed to initialize configuration");
+        return;
+    }
+
     timestamp_set_type(TS_RELATIVE);
     timestamp_set_precision(TS_PREC_AUTO);
     timestamp_set_seconds_type(TS_SECONDS_DEFAULT);
 
     wtap_init(true);
-    epan_init(NULL, NULL, true);
+    if (!epan_init(NULL, NULL, true))
+    {
+        ws_error("Failed to initialize epan.");
+        return;
+    }
 
-    conversation_table_set_gui_info(init_iousers);
-    endpoint_table_set_gui_info(init_endpoints);
-    srt_table_iterate_tables(register_srt_tables, NULL);
-    rtd_table_iterate_tables(register_rtd_tables, NULL);
-    stat_tap_iterate_tables(register_simple_stat_tables, NULL);
-
-    prefs_p = epan_load_settings();
-    prefs_loaded = true;
+#ifdef HAVE_PLUGINS
+    codecs_init();
+    plugins_dump_all();
+#endif
+#ifdef HAVE_LUA
+    wslua_plugins_dump_all();
+#endif
 
     cap_file_init(&cfile);
     cfile.epan = tshark_epan_new(&cfile);
-
-    // print_details = TRUE; /* Need details */
-    // print_summary = TRUE; /* Don't allow summary */
-    // print_packet_info = TRUE;
-
-    // do_dissection = true;
-
-    output_fields = output_fields_new();
-
-    if (!setup_enabled_and_disabled_protocols())
-    {
-        return;
-    }
-    build_column_format_array(&cfile.cinfo, prefs_p->num_cols, TRUE);
+    build_column_format_array(&cfile.cinfo, epan_load_settings()->num_cols, TRUE);
 
     // init global rec
     wtap_rec_init(&rec, 1514);
@@ -5710,10 +5703,10 @@ void process_main_init(void)
     rec.ts.nsecs = 0;
 
     // init global edt epan
-    bool create_proto_tree = true;
-    bool visible = true;
-
-    edt = epan_dissect_new(cfile.epan, create_proto_tree, visible);
+    edt = epan_dissect_new(cfile.epan, true, true);
+    ws_info("plugin %d count %s", plugins_get_count(), get_plugins_dir());
+    ws_info("lua secript %d count %s", wslua_count_plugins(), get_plugins_dir());
+    ws_info("tshark version %s", get_ws_vcs_version_info());
 }
 
 void process_main_after(void)
@@ -5797,29 +5790,3 @@ dissect_single_packet(const uint8_t *data, size_t len)
 
     return result;
 }
-
-// int main(int argc, char *argv[])
-// {
-//     ws_debug("tshark started with %d %d args", argc, argv);
-
-//     process_main_init();
-
-//     clock_t start, end;
-//     start = clock();
-
-//     const uint8_t binary_data[] = {0x4c, 0xd5, 0x77, 0x08, 0x3b, 0x9f, 0x28, 0x68, 0xd2, 0x96, 0x9b, 0xc3, 0x08, 0x00, 0x45, 0x00, 0x00, 0xa5, 0x03, 0x1d, 0x00, 0x00, 0x0c, 0x06, 0xf4, 0xd1, 0xb7, 0x4c, 0xa6, 0x05, 0xac, 0xac, 0xac, 0x66, 0x00, 0x66, 0xe9, 0x15, 0x00, 0x00, 0x00, 0xaf, 0x52, 0x43, 0x8a, 0xd3, 0x50, 0x18, 0x20, 0x00, 0x38, 0xb2, 0x00, 0x00, 0x03, 0x00, 0x00, 0x7d, 0x02, 0xf0, 0x80, 0x32, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0c, 0x00, 0x60, 0x00, 0x01, 0x12, 0x08, 0x12, 0x84, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0xff, 0x09, 0x00, 0x5c, 0x00, 0x11, 0x00, 0x01, 0x00, 0x1c, 0x00, 0x03, 0x00, 0x01, 0x36, 0x45, 0x53, 0x37, 0x20, 0x32, 0x31, 0x35, 0x2d, 0x31, 0x41, 0x47, 0x34, 0x30, 0x2d, 0x30, 0x58, 0x42, 0x30, 0x20, 0x00, 0x00, 0x00, 0x05, 0x20, 0x20, 0x00, 0x06, 0x36, 0x45, 0x53, 0x37, 0x20, 0x32, 0x31, 0x35, 0x2d, 0x31, 0x41, 0x47, 0x34, 0x30, 0x2d, 0x30, 0x58, 0x42, 0x30, 0x20, 0x00, 0x00, 0x00, 0x05, 0x20, 0x20, 0x00, 0x07, 0x36, 0x45, 0x53, 0x37, 0x20, 0x32, 0x31, 0x35, 0x2d, 0x31, 0x41, 0x47, 0x34, 0x30, 0x2d, 0x30, 0x58, 0x42, 0x30, 0x20, 0x00, 0x00, 0x56, 0x04, 0x02, 0x00};
-
-//     for (int i = 0; i < 100000; ++i)
-//     {
-
-//         packet_result result = dissect_single_packet(binary_data, 59);
-//         free_packet_result(&result);
-//     }
-
-//     end = clock();
-//     double cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
-//     printf("程序耗时: %f 秒\n", cpu_time_used);
-
-//     process_main_after();
-//     return 0;
-// }
