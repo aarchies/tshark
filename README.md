@@ -8,7 +8,7 @@ docker pull ubuntu:latest
 docker run --name wireshark_ubuntu -itd -v /root/wireshark:/root ubuntu:latest
 docker exec -it wireshark_ubuntu /bin/bash
 
-apt update && apt install libprotobuf-c-dev libsystemd-dev lua5.3 liblua5.3-dev  -y
+apt update && apt install libprotobuf-c-dev libsystemd-dev lua5.3 liblua5.3-dev golang -y
 cd /root && tools/debian-setup.sh --install-qt6-deps -y
 
 ## 时区设置 5 69 上海时区
