@@ -9,16 +9,20 @@ docker run --name wireshark_ubuntu -itd -v /root/wireshark:/root ubuntu:latest
 docker exec -it wireshark_ubuntu /bin/bash
 
 apt update && apt install libprotobuf-c-dev libsystemd-dev lua5.3 liblua5.3-dev  -y
-tools/debian-setup.sh --install-qt6-deps
+cd /root && tools/debian-setup.sh --install-qt6-deps -y
 
-##时区设置 5 69 上海时区
+## 时区设置 5 69 上海时区
 cd build && cmake -DENABLE_LUA=ON -DENABLE_PLUGINS=ON .. 
 make -j12 && make install
 
+## 导入外部函数头文件
+cp /root/release/include/* /usr/local/include/
+cp /root/release/lib/* /usr/local/lib/
+
 ## 验证 
-ldconfig -p | grep libwireshark.so  
-ldconfig -v | grep tshark
+ldconfig -p | grep libtshark.so  
 wireshark -v # 输出with需包含 +Lua x.x.x
+
 ## 保存为基础镜像
 docker commit wireshark:ubuntu
 docker commit docker.fengchuang.tech/menace/tshark:ubuntu
@@ -71,4 +75,4 @@ rm -rf CMakeCache.txt CMakeFiles
 更换镜像源测试
 
 3.tools/xxx-steup.sh执行出错
-替换为tools-bak下同名可执行文件测试
+替换为tools-bak下同名可执行文件测试/官网获取同版本
